@@ -6,16 +6,44 @@ Your task is to find ‘P’ and ‘Q’ and return them respectively.
 
 example : arr[] = [2,3,6,4,1,1] and n = 6 is size of array then here missing nymber is 5 and repeating number is 1 so we have to return both of number together [1,5] 
 
-/**********
+
+
+/***********************************************************/
 import java.util.HashMap;
 import java.util.Map;
 public class Solution {
-    public static int[] findMissingRepeatingNumbers(int []a) {
-    // Optimal Solution : 
+  
+     public static int[] findMissingRepeatingNumbers(int []a) {
+    // Optimal Solution : Using Maths formula that is sum of n integer number and sum of all elemt of array
+                             // and sum of n square numbers from 1 to n
+        long n = a.length ;
+        long sn = (n *(n+1))/2 ;  // sum of n number 
+        long s2n = (n *(n+1)*(2*n+1))/6 ; // sum of n integer square 
+        long sa = 0 , s2a =0 ;
+        // finding sum of arr ele and square of ar ele
+        for(int i = 0 ; i < n ; i++){
+             sa += a[i];
+             s2a += (long)a[i]*(long)a[i] ;
+        }
+
+        long x = sa - sn ;
+        long y = s2a - s2n ;
+        y = y / x ;  // we are calculating ovear all y value 
+
+        long X = (x + y) / 2 ; // we are repeating number by calculation 
+        long Y = X - x ;  // we are finding the missing from calculation 
+
+   return new int[]{(int)X,(int)Y} ;
+      // time complexity : O(N) but here some chance to lossy data long to int
 
 
 
+   2nd optimal solution : using XOR operation 
 
+   
+
+
+/************************************************************************************/
     
         /*
      // Better Solution : Using Hashing 
@@ -88,7 +116,7 @@ public class Solution {
     }
 
 
-
+/***********************************************/
      
       /*  // Brute force Solution 
         int missing = -1 , repeating = -1 ;
