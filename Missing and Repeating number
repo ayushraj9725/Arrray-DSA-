@@ -1,0 +1,115 @@
+Problem : Missing and Repeating number  :Link : https://www.naukri.com/code360/problems/missing-and-repeating-numbers_6828164?leftPanelTabValue=SUBMISSION
+                                                https://leetcode.com/problems/find-missing-and-repeated-values/description/ 
+Problem Statement : Problem statement
+You are given an array of ‘N’ integers where each integer value is between ‘1’ and ‘N’. Each integer appears exactly once except for ‘P’, which appears exactly twice, and ‘Q’, which is missing.
+Your task is to find ‘P’ and ‘Q’ and return them respectively.
+
+example : arr[] = [2,3,6,4,1,1] and n = 6 is size of array then here missing nymber is 5 and repeating number is 1 so we have to return both of number together [1,5] 
+
+/**********
+import java.util.HashMap;
+import java.util.Map;
+public class Solution {
+    public static int[] findMissingRepeatingNumbers(int []a) {
+    // Optimal Solution : 
+
+
+
+
+    
+        /*
+     // Better Solution : Using Hashing 
+      HashMap<Integer,Integer> hm = new HashMap<>();
+        int n = a.length ;
+        for(int i = 0 ; i < n ;i++){
+            hm.put(a[i],hm.getOrDefault(a[i],0)+1);
+        }  // we insert all the value here as key and one of them is definatly repeated so thats key stored as 2 
+        // and that one number not stored here because of not containing in arry so the key is not containng here 
+        // if we iterate 1 to n and check for key is containg or not or what time containg then we are able to find that both
+
+        int missing = -1 , repeating = -1 ;
+        for(int i = 1 ; i <= n ; i++){
+            if(!hm.containsKey(i)){
+                missing = i ; // this key is not containg in map so this is missing 
+            }
+            else if(hm.get(i) == 2){ // where we get the value is 2 tht's key is repeating
+                repeating = i ;
+            }
+        }
+      return new int[]{repeating, missing} ;
+       // time complexity : O(N+N) and space O(N) .
+  
+
+      */
+
+      
+      /*  HashMap<Integer,Integer> hm = new HashMap<>();
+        int n = a.length ;
+        for(int i = 1 ; i <= n ;i++){
+            hm.put(i,hm.getOrDefault(i,0)+a[i-1]);
+        }
+
+        int missing = -1 , repeating = -1 ;
+        for(Map.Entry<Integer,Integer> e : hm.entrySet()){
+            if(e.getValue() == 2) repeating = e.getKey() ;
+            else if(e.getValue() == 0) missing = e.getKey() ;
+        }
+     
+     return new int[]{repeating,missing} ;
+     
+     // time complexity : O(N+N) and space O(N) .
+
+     this way is not working well because of some incountering internal error
+     iff we are going to addd value  of arr that is missing we are not exactly inserting that
+    */
+
+
+     // this hashing method is also work in this cas 
+      public static int[] findMissingRepeatingNumbers(int[] a) {
+        int n = a.length; // size of the array
+        int[] hash = new int[n + 1]; // hash array
+
+        //update the hash array:
+        for (int i = 0; i < n; i++) {
+            hash[a[i]]++;
+        }
+
+        //Find the repeating and missing number:
+        int repeating = -1, missing = -1;
+        for (int i = 1; i <= n; i++) {
+            if (hash[i] == 2) repeating = i;
+            else if (hash[i] == 0) missing = i;
+
+            if (repeating != -1 && missing != -1)
+                break;
+        }
+        int[] ans = {repeating, missing};
+        return ans;
+    }
+
+
+
+     
+      /*  // Brute force Solution 
+        int missing = -1 , repeating = -1 ;
+        for(int i = 1 ; i <= a.length ;i++){
+            int count = 0 ;
+            for(int j = 0 ; j < a.length ; j++){
+                if(i == a[j]) count++ ;
+            }
+            if(count == 2) repeating = i ;
+            else if(count == 0) missing = i ;
+
+            else if(repeating != -1 && missing != -1) break ;
+        }
+
+        return new int[]{repeating,missing} ;
+        // Time Complexity : O(N^2) taken here 
+
+        */
+
+    }
+}
+
+
+************/
