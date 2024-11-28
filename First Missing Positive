@@ -1,0 +1,69 @@
+problem : First Missing Positive : link : https://leetcode.com/problems/first-missing-positive/description/ 
+
+statement : Given an unsorted integer array nums. Return the smallest positive integer that is not present in nums.
+You must implement an algorithm that runs in O(n) time and uses O(1) auxiliary space.
+
+Example 1:
+Input: nums = [1,2,0]
+Output: 3
+Explanation: The numbers in the range [1,2] are all in the array.
+
+Example 2:
+Input: nums = [3,4,-1,1]
+Output: 2
+Explanation: 1 is in the array but 2 is missing.
+
+Example 3:
+Input: nums = [7,8,9,11,12]
+Output: 1
+Explanation: The smallest positive integer 1 is missing.   and other example we will write here or see note on copy question no 33 .
+
+///*********************//
+Brute force explanation :
+Find Maximum Value: We first find the largest number in the array (max), so we know the upper limit for the range of missing positive integers.
+
+Search for Missing Number:
+
+We check every integer from 1 to max to see if it is present in the array.
+If we find an integer i that is not in the array, we return it as the first missing positive integer.
+Edge Case:
+
+If all integers from 1 to max are present, the first missing positive integer will be max + 1.
+Time and Space Complexity:
+Time Complexity: O(n * max), since we are checking each i from 1 to max and for each i, we are checking the entire array of size n. This makes it very inefficient when max is large compared to n.
+Space Complexity: O(1), as we only use a few extra variables (max, flag), and do not allocate additional memory proportional to the input size.
+
+
+bryte force code : 
+public int firstMissingPositive(int[] nums) {
+    // Step 1: Find the maximum value in the array to limit our search range
+    int max = 0;
+    for (int i = 0; i < nums.length; i++) {
+        max = Math.max(nums[i], max);
+    }
+    
+    // Step 2: Iterate from 1 to max to find the first missing positive number
+    for (int i = 1; i <= max; i++) {
+        boolean flag = false;
+        // Check if 'i' is present in the array
+        for (int j = 0; j < nums.length; j++) {
+            if (nums[j] == i) {
+                flag = true;
+                break;  // No need to check further for this 'i'
+            }
+        }
+        // If 'i' is not found, it's the first missing positive
+        if (!flag) {
+            return i;
+        }
+    }
+    
+    // Step 3: If all numbers from 1 to max are present, return max + 1
+    return max + 1;
+}
+
+
+
+//*********************//
+Optimal solution :
+
