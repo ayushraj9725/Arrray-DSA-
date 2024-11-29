@@ -86,6 +86,35 @@ every element from 1 to ma if any  key  contains then make it true if at first a
 
        return nums.length + 1 ;  // this is last chance where map not found .
 
+/***********************/
+Most Better Solution : Using HAshMAp 
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+	public static int firstMissing(int[] arr, int n) { 
+		// Most Better Solution 
+
+		HashMap<Integer,Boolean> hm = new HashMap<>();
+		// wew are inserting key only considering +ve number , we can use as minimum space in map
+		// because we have to deal with all postive number from 1 to n what at first missing 
+		for(int num : arr){
+			if(num > 0){
+				hm.put(num,false) ;
+			}
+		}	 // and now we are iterating till size of arr , till this point we will get that missing first smallest element ,not need to go till size max ele
+		for(int i = 1 ; i <= n ; i++){
+			if(hm.containsKey(i)){
+				hm.put(i,true); // if get any key is preent update those value with true 
+			}else{
+				return i ; // other wise at first time 1 to n what is not present that's our answer (it means if first time above condition false that time we will get my answer)
+
+			}
+		}
+		return n+1; // other sie we return the size of arr , if arry has already element 1 to size -1 
+	}   // time complexity : O(2N)  and space O(no_of_positive in arr)
+}
+
+
 //*********************//
 Optimal solution :
 this 
