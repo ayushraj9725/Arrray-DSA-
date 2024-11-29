@@ -1,4 +1,6 @@
 problem : First Missing Positive : link : https://leetcode.com/problems/first-missing-positive/description/ 
+                   code ninja : https://www.naukri.com/code360/problems/first-missing-positive_699946?topList=top-amazon-coding-interview-questions&leftPanelTabValue=SUBMISSION    
+Ask IN Company Interview : Google , Amazon , Microsoft , snapdeal , OYO , Walmart , saleforces ;
 
 statement : Given an unsorted integer array nums. Return the smallest positive integer that is not present in nums.
 You must implement an algorithm that runs in O(n) time and uses O(1) auxiliary space.
