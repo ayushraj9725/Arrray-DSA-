@@ -63,6 +63,28 @@ public int firstMissingPositive(int[] nums) {
 }
 
 
+/***********************/
+
+Better Solution : using hashmap (stored that every element into hasmap key and accross it boolean value   while iterating 1 to max and check 
+every element from 1 to ma if any  key  contains then make it true if at first any  key not found as per current element of iterating time  just break and return current eleemnt / number )
+                (or store 1 to max of arr value just like that and iterate do just opposite to above 
+
+
+       HashMap<Integer,Boolean> m = new HashMap<>();
+       for(int i = 0 ; i < nums.length ;i++) {
+           m.put(nums[i],false) ;
+       } 
+       for(int i = 1 ; i <= nums.length ;i++){
+           if(m.containsKey(i)){
+              //  continue ;
+              // m.get(i) = true ; // it is not working ,according to rule . but
+               m.put(i,true) ;
+           }
+           if(!m.containsKey(i)) return i ;
+       }
+       
+
+       return nums.length + 1 ;  // this is last chance where map not found .
 
 //*********************//
 Optimal solution :
