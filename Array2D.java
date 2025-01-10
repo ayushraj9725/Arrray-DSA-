@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 public class Array2D {
-    // learning ArrayList 2D -> it is a list which contains the number of list as rows 
+    // learning ArrayList 2D -> it is a list which contains the number of list as rows of matrix
     public static ArrayList<Integer> searchIndex(int[][] m , int key){
         ArrayList<Integer> r = new ArrayList<>();
         for(int i = 0 ; i < m.length ;i++){
