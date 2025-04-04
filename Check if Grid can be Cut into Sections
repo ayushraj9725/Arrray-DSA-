@@ -1,0 +1,62 @@
+Problem : Check if Grid can be Cut into Sections 
+
+Problem Statement :
+You are given an integer n representing the dimensions of an n x n grid, with the origin at the bottom-left corner of the grid. You are also given a 2D array of coordinates rectangles, where rectangles[i] is in the form [startx, starty, endx, endy], representing a rectangle on the grid. Each rectangle is defined as follows:
+
+(startx, starty): The bottom-left corner of the rectangle.
+(endx, endy): The top-right corner of the rectangle.
+Note that the rectangles do not overlap. Your task is to determine if it is possible to make either two horizontal or two vertical cuts on the grid such that:
+
+Each of the three resulting sections formed by the cuts contains at least one rectangle.
+Every rectangle belongs to exactly one section.
+Return true if such cuts can be made; otherwise, return false.
+
+
+Example 1:
+
+Input: n = 5, rectangles = [[1,0,5,2],[0,2,2,4],[3,2,5,3],[0,4,4,5]]
+
+Output: true
+
+
+///////////////////////////// SOLUTION CPP /////////////////////
+
+class Solution {
+public:
+    vector<vector<int>> buildAndMerge(vector<vector<int>>& rectangles,bool coordinate){
+        vector<vector<int>> intervals ;
+        for(auto rec : rectangles){
+            intervals.push_back(coordinate ? vector<int>({rec[0],rec[2]}) : vector<int>({rec[1],rec[3]})) ;
+        }
+        sort(intervals.begin(),intervals.end());
+
+        vector<vector<int>> merged ; // we are merging intervals and stored that into this 
+        vector<int> curr = intervals[0];
+        for(int i = 1 ; i < intervals.size() ; i++){
+            vector<int> next = intervals[i];
+            if(curr[1] > next[0]){
+                curr[1] = max(curr[1],next[1]);
+            }
+            else{
+                merged.push_back(curr); // add curr here and start new with curr
+                curr = next;
+            }
+        }
+        // add at the last curr into merged
+        merged.push_back(curr);
+        return merged ;
+
+    }
+    bool checkValidCuts(int n, vector<vector<int>>& rectangles) {
+        // we are approach this problem using merge interval , and try to find the at least 3 interval for the verticle or horizontal cut , by just picked uping the sx,ex  and sy, ey 
+        // we are finding the intervals verticle or horizontal 
+        vector<vector<int>> mergeX = buildAndMerge(rectangles,true); // call for verticles
+        if(mergeX.size() >= 3) return true ;
+
+        vector<vector<int>> mergeY = buildAndMerge(rectangles,false); // call for verticles
+        if(mergeY.size() >= 3) return true ;
+
+        return false ; // otherwise if still not return true 
+
+    }
+};
