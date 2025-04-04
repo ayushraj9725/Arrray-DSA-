@@ -1,0 +1,190 @@
+Problem : Count Ways to Group Overlapping Ranges
+
+Problem Statement : 
+
+You are given a 2D integer array ranges where ranges[i] = [starti, endi] denotes that all integers between starti and endi (both inclusive) are contained in the ith range.
+You are to split ranges into two (possibly empty) groups such that:
+Each range belongs to exactly one group.
+Any two overlapping ranges must belong to the same group.
+Two ranges are said to be overlapping if there exists at least one integer that is present in both ranges.
+
+
+For example, [1, 3] and [2, 5] are overlapping because 2 and 3 occur in both ranges.
+Return the total number of ways to split ranges into two groups. Since the answer may be very large, return it modulo 109 + 7.
+
+ 
+
+Example 1:
+Input: ranges = [[6,10],[5,15]]
+Output: 2
+Explanation: 
+The two ranges are overlapping, so they must be in the same group.
+Thus, there are two possible ways:
+- Put both the ranges together in group 1.
+- Put both the ranges together in group 2.
+
+
+//////// SOLUTION ////////////////
+
+class Solution {
+public:
+    /* vector<vector<int>> mergeInterval(vector<vector<int>>& ranges){
+        sort(ranges.begin(),ranges.end());
+        vector<vector<int>> merged ;
+        vector<int> curr = ranges[0];
+        merged.push_back(curr);
+
+        for(int i = 1 ; i < ranges.size() ; i++){
+           vector<int> range = ranges[i];
+           int nextStart = range[0];
+           int nextEnd = range[1];
+           int currEnd = curr[1];
+      
+            if(currEnd >= nextStart) {
+              currEnd = max(currEnd,nextEnd);
+            }else{
+                // start new interval 
+                curr = range ;
+                merged.push_back(curr);
+            }
+        }
+        return merged ;   
+    }
+    *///////////////////////////////////////////////////////////////////////////////////////////////////////////////// CORRECT FROM HERE ///////////////////////////////////////////////////////////////////////////////////////
+
+
+     vector<vector<int>> mergeInterval(vector<vector<int>>& ranges) {
+        sort(ranges.begin(), ranges.end());  // Step 1: Sort by start value
+
+        vector<vector<int>> merged;
+        vector<int> curr = ranges[0];
+
+        for (int i = 1; i < ranges.size(); i++) {
+            vector<int> range = ranges[i];
+            int nextStart = range[0];
+            int nextEnd = range[1];
+
+            if (curr[1] >= nextStart) {
+                // Merge overlapping intervals
+                curr[1] = max(curr[1], nextEnd);
+            } else {
+                // Store previous merged interval before starting a new one
+                merged.push_back(curr);
+                curr = range;
+            }
+        }
+
+        // Push the last merged interval
+        merged.push_back(curr);
+
+        return merged;
+    }
+    long long power(long long b , long long x , long long mod){
+        long long ans = 1 ;
+        while(x > 0){
+            if(x % 2 == 1){
+                ans = (ans * b) % mod ;
+                x-- ;
+            }
+            else{
+                b = b * b % mod;
+                x = x/2 ;
+            }
+        }
+        return ans ;
+    }
+
+    long long powerOfTwoIterative(int n,int mod) {
+    long long result = 1;
+    long long base = 2;
+
+    while (n > 0) {
+        if (n % 2 == 1) {  // If the bit is set, multiply result
+            result *= base % mod ;
+        }
+        base *= base % mod ;  // Square the base
+        n /= 2;  // Divide exponent by 2
+    }
+
+    return result;
+    }
+    
+
+
+    int countWays(vector<vector<int>>& ranges) {
+    // RIGHT APPROACH :  
+    // first step -> merge all the intervals in separate arr 
+    // Second step : we need to find the total no of possible group 
+    // we know there is given we have to split it into 2 group so if we have x ranges after merging then it can go to  " 2^x " then we do mod 
+    vector<vector<int>> mergedRange = mergeInterval(ranges);
+    int x = mergedRange.size();
+    // now we have to find the no of possible group : 2^x 
+    const long long mod = 1e9 + 7 ;
+   // int ans = (int)powerOfTwoIterative(x,mod) ;
+    int ans = (int)power(2,x,mod);
+    return ans ;
+
+    
+    /**********************************************************************************************I*****************************************************************   till here 
+
+
+      //  Wrong approach below  
+
+        // Step 1: Sort intervals based on the start value
+        sort(ranges.begin(), ranges.end());
+        int n = ranges.size() ;
+        if(n == 1) return 2 ;
+        int count = 1;  // Start with 1 group
+        const int mod = 1e9 + 7;
+        int currEnd = ranges[0][1];
+
+        // Step 2: Iterate through the intervals
+        for (int i = 1; i < n ; i++) {
+            int nextStart = ranges[i][0];
+            int nextEnd = ranges[i][1];
+
+            if (currEnd >= nextStart) {
+                // A new disjoint group is found → Multiply count by 2
+                count = (count * 2) % mod;
+            }
+
+            // Always update `currEnd` to merge overlapping intervals
+            currEnd = max(currEnd, nextEnd);
+        }
+
+        return count;
+
+
+      /*  // we need to know the total no of possible group by spliting that into two group 
+        // overlapping range must belong from same group , we can apply merge interval over here and do each time count + 2 because there can be make 2 group of merging 2 interval
+        sort(ranges.begin(),ranges.end());
+        int count = 1 ;
+        // int mod = 1000000007 ;
+        const int mod = 1e9 + 7;
+
+        vector<int> curr = ranges[0];
+        for(int i = 1 ; i < ranges.size() ; i++){
+           vector<int> range = ranges[i];
+           int nextStart = range[0];
+           int nextEnd = range[1];
+           int currEnd = curr[1];
+
+           if(currEnd < nextStart){
+            //   currEnd = max(currEnd,nextEnd);
+              count = ( count * 2 ) % mod ; // start new group when found non overlapping 
+              curr = range ; // update only care about the non overlapping range 
+           }
+           
+           
+           currEnd = max(currEnd,nextEnd);
+        }
+        return count ;
+     */
+
+
+    }
+    
+    // ✅ Time Complexity: O(N log N) (due to sorting)
+    // ✅ Space Complexity: O(1) (constant extra space)
+    
+};
