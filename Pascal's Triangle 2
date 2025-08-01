@@ -1,0 +1,75 @@
+Problem : Pascal's Triangle
+
+Problem Statement : 
+
+Given an integer numRows, return the first numRows of Pascal's triangle.
+In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
+ 
+
+Example 1:
+Input: numRows = 5
+Output: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+
+Example 2:
+Input: numRows = 1
+Output: [[1]]
+
+
+
+Problem Solution : 
+
+////   C++ Implementation Optimal ////  
+
+class Solution {
+public:
+    int findNCR(int c , int r){
+        int v = 1 ;
+        for(int i = 1 ; i <= r ; i++){
+            v = v * (c-i+1);
+            v = v/i;
+        }
+        return v ;
+    }
+    vector<vector<int>> generate(int numRows) {
+        
+        vector<vector<int>> ans ;
+        for(int i = 1 ; i <= numRows ; i++){
+            vector<int> curr ;
+            for(int j = 1 ; j <= i ; j++){
+                curr.push_back(findNCR(i-1,j-1));
+            }
+            // now add that curr row in ans 
+            ans.push_back(curr);
+        }
+
+        return ans ;
+    }
+};
+
+////   Java Implementation   ////  
+
+import java.util.*;
+class Solution {
+    public static int nCr(int n , int r){
+        long ans = 1 ;
+        for(int i = 0 ; i < r ;i++){
+             ans = ans * (n - i);
+             ans = ans/(i+1);
+        }
+        return (int)ans;
+    }
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> result =  new ArrayList<>();
+
+        for(int i = 1 ; i <= numRows ;i++){
+            List<Integer> ans = new ArrayList<>();
+            for(int j = 1 ; j <= i ;j++){
+                ans.add(nCr(i - 1 , j - 1));
+            }
+            result.add(ans);
+        }
+        return result ;
+    }
+}
+
+
