@@ -1,0 +1,105 @@
+Problem Name : Insert Interval
+
+Problem Statement : 
+Geek has an array of non-overlapping intervals intervals[][] where intervals[i] = [starti , endi] represent the start and the end of the ith event and intervals is sorted in ascending order by starti . He wants to add a new interval newInterval[] = [newStart, newEnd] where newStart and newEnd represent the start and end of this interval.
+Help Geek to insert newInterval into intervals such that intervals is still sorted in ascending order by starti and intervals still does not have any overlapping intervals (merge overlapping intervals if necessary).
+
+Examples:
+
+Input: intervals[][] = [[1, 3], [4, 5], [6, 7], [8, 10]], newInterval[] = [5, 6]
+Output: [[1, 3], [4, 7], [8, 10]]
+Explanation: The newInterval [5, 6] overlaps with [4, 5] and [6, 7]. So, they are merged into one interval [4, 7].
+
+Input: intervals[][] = [[1, 2], [3, 5], [6, 7], [8, 10], [12, 16]], newInterval[] = [4, 9]
+Output: [[1, 2], [3, 10], [12, 16]]
+Explanation: The new interval [4, 9] overlaps with [3, 5], [6, 7] and [8, 10]. So, they are merged into one interval [3, 10].
+
+Constraints:
+1 ≤ intervals.size() ≤  105
+0 ≤ starti ≤ endi ≤ 109
+0 ≤ newStart ≤ newEnd ≤ 109
+
+/********************************************************* SOLUTION **************************************************************/
+
+C++ 
+
+class Solution {
+  public:
+    vector<vector<int>> insertInterval(vector<vector<int>> &intervals,
+                                       vector<int> &newInterval) {
+        // code here
+        
+        // Insert the new interval
+        intervals.push_back(newInterval);
+        
+        vector<vector<int>> ans ;
+        
+        sort(intervals.begin(),intervals.end());
+        
+        vector<int> currInterval = intervals[0];
+        ans.push_back(currInterval);
+        
+        for(int i = 1 ; i < intervals.size() ;i++){
+            int ce = currInterval[1];
+            int ns = intervals[i][0];
+            int ne = intervals[i][1];
+            
+            // merging intervals 
+            if(ns <= ce){
+                currInterval[1] = max(ce,ne); // update max one of them c
+                ans.back() = currInterval; // update the last interval in ans
+            }
+            else{
+                currInterval = intervals[i];
+                ans.push_back(currInterval);
+            }
+            
+        }
+        
+        return ans ;
+        
+    }
+};
+
+
+
+
+
+//// Java  
+
+
+
+import java.util.*;
+class Solution {
+    public int[][] insert(int[][] intervals, int[] interval) {
+
+         
+
+         Arrays.sort(intervals,(a,b) -> Integer.compare(a[0],b[0]));
+   
+         List<int[]> ans = new ArrayList<>(); // taking a list of storing int premtive type array
+         // taking initially 1st interval
+         int[] currentInterval = intervals[0];
+         ans.add(currentInterval);
+
+         // now apply operation
+         for(int[] interval : intervals){
+            int currentEnd = currentInterval[1];
+            int nextStart = interval[0];
+            int nextEnd = interval[1];
+            // checking if there is overlap between the current and next interval 
+            if(nextStart <= currentEnd){
+                // merging and storing in currentInerval if found overlaping
+                 currentInterval[1] = Math.max(currentEnd,nextEnd);
+               //  currentInterval[1] = currentEnd ;
+            }
+            else{
+                // if no overlap found , consider new interval
+                currentInterval = interval ;
+                ans.add(currentInterval);
+            }
+         }
+         return ans.toArray(new int[ans.size()][]); // return after the list converted into the 2d array.
+         // ime complexity Overall : O(nlogn + n) and space taken O(n) 
+    }
+}
