@@ -1,0 +1,101 @@
+Problem : Maximum number of one's
+
+
+Problem SOlution : 
+
+Given a binary array arr[] containing only 0s and 1s and an integer k, you are allowed to flip at most k 0s to 1s. Find the maximum number of consecutive 1's that can be obtained in the array after performing the operation at most k times.
+
+Examples:
+
+Input: arr[] = [1, 0, 1], k = 1
+Output: 3
+Explanation: By flipping the zero at index 1, we get the longest subarray from index 0 to 2 containing all 1’s.
+
+Input: arr[] = [1, 0, 0, 1, 0, 1, 0, 1], k = 2
+Output: 5
+Explanation: By flipping the zeroes at indices 4 and 6, we get the longest subarray from index 3 to 7 containing all 1’s.
+
+Input: arr[] = [1, 1], k = 2
+Output: 2
+Explanation: Since the array is already having the max consecutive 1's, hence we dont need to perform any operation. Hence the answer is 2.
+
+Constraints:
+1 ≤ arr.size() ≤ 105
+0 ≤ k ≤ arr.size()
+0 ≤ arr[i] ≤ 1
+
+Expected Complexities
+Time Complexity: O(n)
+Auxiliary Space: O(1)
+
+Company Tags
+Accolite  Amazon  Microsoft  MakeMyTrip
+
+
+/********************************************************* SOLUTION BRUTE FORCE ******************************************************/
+
+
+class Solution {
+  public:
+    int maxOnes(vector<int>& arr, int k) {
+        // code here
+        //  brute force approach by exploring all the subarray
+        
+        int res = 0 ;
+        int n = arr.size();
+        for(int i = 0 ; i < n ;i++){
+            int count = 0 ;
+            for(int j = i ; j < n ; j++){
+                if(arr[j] == 0){
+                    count++ ;
+                }
+                 // if we get count less then k then we make ot flip 0 to 1 that many times
+                if(count <= k){
+                    res = max(res,(j - i + 1)); // maximum length of subarray 
+                }
+            }
+        }
+        
+        return res ; // now we can return this 
+    }
+};
+
+
+/****************************************************** OPTIMAL SLIDING WINDOWS TECHNIQE **********************************************/
+
+
+class Solution {
+  public:
+    int maxOnes(vector<int>& arr, int k) {
+        // code here
+        //  approach  approach by using Sliding windows in order to find the subarray
+        int res = 0;
+
+        // Start and end pointer of the window
+        int start = 0, end = 0;
+
+        // Counter to keep track of zeros in current window
+        int cnt = 0;
+
+        while (end < arr.size()) {
+            if (arr[end] == 0)
+                cnt++;
+
+            // Shrink the window from left if
+            // no. of zeroes are greater than k
+            while (cnt > k) {
+                if (arr[start] == 0)
+                    cnt--;
+
+                start++;
+            }
+
+            res = max(res, (end - start + 1));
+          
+            // Increment the end pointer to expand the window
+            end++;
+        }
+
+        return res;
+    }
+};
